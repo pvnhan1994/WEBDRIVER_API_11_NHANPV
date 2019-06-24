@@ -29,10 +29,13 @@ public class Topic01_CheckEnvironment {
 		
 		// Login form displayed
 		Assert.assertTrue(driver.findElement(By.xpath("//form[@name='frmLogin']")).isDisplayed());
-		
+		//update 
 		// TBD
 	}
-
+	@Test 
+	public void TC_02() {
+		// Check Slack vs Github 
+	}
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
