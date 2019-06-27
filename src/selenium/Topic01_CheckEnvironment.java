@@ -43,6 +43,9 @@ public class Topic01_CheckEnvironment {
 	public void TC_04() {
 		// Check pull
 	}
+	public void TC_05() {
+		// Check pull
+	}
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
