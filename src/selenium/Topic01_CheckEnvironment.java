@@ -36,16 +36,7 @@ public class Topic01_CheckEnvironment {
 	public void TC_02() {
 		// Check Slack vs Github 
 	}
-	@Test 
-	public void TC_03() {
-		// Check Slack vs Github 
-	}
-	public void TC_04() {
-		// Check pull
-	}
-	public void TC_05() {
-		// Check pull
-	}
+	
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
