@@ -2,6 +2,7 @@ package selenium;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -64,66 +65,35 @@ public class Topic_06_WebBrowser_WebElement {
 	@Test 
 	public void TC_02_EnableAndDisable() {
 		//Check Enable
-		if(isElementEnable(emailTextbox)) {
-			System.out.println("Element: "+emailTextbox+" is Enable ");
-		}
-		if(isElementEnable(ageUnder18)) {
-			System.out.println("Element: "+ageUnder18+" is Enable ");
-		}
-		if(isElementEnable(eduTextArea)) {
-			System.out.println("Element: "+eduTextArea+" is Enable ");
-		}
-		if(isElementEnable(jobRole01)) {
-			System.out.println("Element: "+jobRole01+" is Enable ");
-		}
-		if(isElementEnable(interestEnable)) {
-			System.out.println("Element: "+interestEnable+" is Enable ");
-		}
-		if(isElementEnable(slide01Enable)) {
-			System.out.println("Element: "+slide01Enable+" is Enable ");
-		}
-		if(isElementEnable(buttonEnable)) {
-			System.out.println("Element: "+buttonEnable+" is Enable ");
-		}
-		//Check Disable
-		if(isElementDisable(passTextbox)) {
-			System.out.println("Element: "+passTextbox+" is Disable ");
-		}
-		if(isElementDisable(ageDisable)) {
-			System.out.println("Element: "+ageDisable+" is Disable ");
-		}
-		if(isElementDisable(biography)) {
-			System.out.println("Element: "+biography+" is Disable ");
-		}
-		if(isElementDisable(jobRole02)) {
-			System.out.println("Element: "+jobRole02+" is Disable ");
-		}
-		if(isElementDisable(interestDisable)) {
-			System.out.println("Element: "+interestDisable+" is Disable ");
-		}
-		if(isElementDisable(slide02Disable)) {
-			System.out.println("Element: "+slide02Disable+" is Disable ");
-		}
-		if(isElementDisable(buttonDisable)) {
-			System.out.println("Element: "+buttonDisable+" is Disable ");
-		}
+		isElementEnable(emailTextbox);
+		isElementEnable(ageUnder18);
+		isElementEnable(eduTextArea);
+		isElementEnable(jobRole01);
+		isElementEnable(interestEnable);
+		isElementEnable(slide01Enable);
+		isElementEnable(buttonEnable);
+		isElementEnable(passTextbox);
+		isElementEnable(ageDisable);
+		isElementEnable(biography);
+		isElementEnable(jobRole02);
+		isElementEnable(interestDisable);
+		isElementEnable(slide02Disable);
+		isElementEnable(buttonDisable);
+		
+		
 	}
 	@Test
 	public void TC_03_Selected() {
+		
 		clickElement(ageUnder18);
 		clickElement(interestEnable);
-		
-		if(isElementSelected(ageUnder18) && isElementSelected(interestEnable)) {
-			System.out.println("Age Under 18 + Interest Development: Selected");
-		}
+		Assert.assertTrue(isElementSelected(ageUnder18));
+		Assert.assertTrue(isElementSelected(interestEnable));
 		
 		clickElement(interestEnable);
-		if(!isElementSelected(interestEnable)) {
-			System.out.println("Interest Development: Un-Selected");
-		}
-			
-	//	Assert.assertFalse(clickElement(interestEnable));
+		Assert.assertFalse(isElementSelected(interestEnable));
 	}
+	
 	
 	public boolean isElementDisplayed(By by) {
 		WebElement element= driver.findElement(by);
@@ -137,13 +107,14 @@ public class Topic_06_WebBrowser_WebElement {
 		WebElement element= driver.findElement(by);
 		element.sendKeys(value);
 	}
-	public boolean isElementEnable(By by) {
-		WebElement element=driver.findElement(by);
-		return element.isEnabled();
-	}
-	public boolean isElementDisable(By by) {
+	
+	public void isElementEnable(By by) {
 		WebElement element = driver.findElement(by);
-		return element.isDisplayed();
+		if(element.isEnabled()) {
+			System.out.println("Element "+element+  "is Enable");
+		}else {
+			System.out.println("Element "+element+  "is Disable");
+		}
 	}
 	public boolean isElementSelected(By by) {
 		WebElement element=driver.findElement(by);
