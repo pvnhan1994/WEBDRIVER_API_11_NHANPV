@@ -13,7 +13,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class Topic_11_Popup_IFrame_Frame {
+public class Topic_11_12_Popup_IFrame_Frame {
 	WebDriver driver;
 
 	@BeforeClass
@@ -23,10 +23,31 @@ public class Topic_11_Popup_IFrame_Frame {
 		driver.manage().window().maximize();
 
 	}
-	@Test
+
 	public void TC_01_iFrame() throws Exception {
 		driver.get("https://www.hdfcbank.com/");
-		driver.findElement(By.xpath("//div[@id='parentdiv']/img")).click();
+
+		// Size >= 1 - Presence (Có trong DOM) - k hiển thị trên UI: Undispplayed
+		// Size = 0 - Ko có trong DOM - ko hiển thị trong UI: Undisplayed
+		// Size >= 1 - Visible (Có trong DOM + hiển thị UI: Displayed
+
+		List<WebElement> popup = driver.findElements(By.xpath("//div[@id='parentdiv']/a/img[@class='popupbanner at-element-click-tracking']"));
+
+		if (popup.size() > 0 && popup.get(0).isDisplayed()) {
+			System.out.println("Size >= 1 - Visible (Có trong DOM + hiển thị UI: Displayed ");
+		} else if (popup.size() > 0 && !popup.get(0).isDisplayed()) {
+			System.out.println("Size >= 1 - Presence (Có trong DOM) - k hiển thị trên UI: Undispplayed ");
+		} else if (popup.size() == 0) {
+			System.out.println("Size = 0  - Ko có trong DOM - ko hiển thị trong UI: Undisplayed ");
+		}
+		System.out.println("Popup displayed = " + popup.size());
+		if (popup.size() > 0 && popup.get(0).isDisplayed()) {
+			driver.findElement(By.xpath("//img[@class='popupCloseButton']")).click();
+			Assert.assertFalse(popup.get(0).isDisplayed());
+		}
+		// Note: isDisplayed Nó chỉ kiểm tra được element có hiển thị thôi
+		// Element k hiển thị nó chỉ ktra được 1 case: Size > 0 (phải có ít nhất 1)
+		// Element k hiển thị size = 0 ; nó k dùng hàm này được
 
 		// Switch TO iFrame
 		WebElement lookingForIframe = driver.findElement(By.xpath("//iframe[starts-with(@id,'viz_iframe')]"));
@@ -51,7 +72,6 @@ public class Topic_11_Popup_IFrame_Frame {
 
 	}
 
-	@Test
 	public void TC_02_Windows() {
 		driver.get("https://daominhdam.github.io/basic-form/index.html");
 
@@ -76,8 +96,8 @@ public class Topic_11_Popup_IFrame_Frame {
 
 		closeAllWindowsWithoutParent(parentID);
 	}
-	@Test
-	public void TC_03() {
+
+	public void TC_03_Windows() {
 		driver.get("https://www.hdfcbank.com/");
 
 		String parentID = driver.getWindowHandle();
@@ -91,11 +111,10 @@ public class Topic_11_Popup_IFrame_Frame {
 		driver.findElement(By.xpath("//p[text()='Account Details']")).click();
 		switchToWindowByTitle("Welcome to HDFC Bank NetBanking");
 
-		
 		WebElement framePolicy = driver.findElement(By.xpath("//frame[@name='footer']"));
 		driver.switchTo().frame(framePolicy);
 		driver.findElement(By.xpath("//a[text()='Privacy Policy']")).click();
-		
+
 		switchToWindowByTitle("HDFC Bank - Leading Bank in India, Banking Services, Private Banking, Personal Loan, Car Loan");
 
 		driver.findElement(By.xpath("//a[@title='Corporate Social Responsibility']")).click();
@@ -104,7 +123,45 @@ public class Topic_11_Popup_IFrame_Frame {
 		switchToWindowByTitle("HDFC Bank: Personal Banking Services");
 
 	}
-	
+
+	@Test
+	public void TC_04_Compare() {
+		driver.get("http://live.guru99.com/index.php/");
+
+		String parentID = driver.getWindowHandle();
+		System.out.println("Parent ID = " + parentID);
+
+		driver.findElement(By.xpath("//a[text()='Mobile']")).click();
+
+		clickProductAddToCompareButton("Sony Xperia");
+		Assert.assertTrue(verifyProductAddToCompare("Sony Xperia"));
+
+		clickProductAddToCompareButton("Samsung Galaxy");
+		Assert.assertTrue(verifyProductAddToCompare("Samsung Galaxy"));
+
+		driver.findElement(By.xpath("//button[@title='Compare']")).click();
+		switchToWindowByTitle("Products Comparison List - Magento Commerce");
+
+		List<WebElement> checkSize = driver.findElements(By.xpath("//h2[@class='product-name']"));
+		System.out.println("Size product compare:" + checkSize.size());
+		Assert.assertEquals(checkSize.size(), 2);
+
+		Assert.assertEquals(driver.getTitle(), "Products Comparison List - Magento Commerce");
+
+		closeAllWindowsWithoutParent(parentID);
+
+	}
+
+	public void clickProductAddToCompareButton(String productName) {
+		driver.findElement(By.xpath("//a[text()='" + productName + "']/parent::h2/following-sibling::div[@class='actions']/ul/li/a[text()='Add to Compare']")).click();
+
+	}
+
+	public boolean verifyProductAddToCompare(String productName) {
+		WebElement element = driver.findElement(By.xpath("//span[text()='The product " + productName + " has been added to comparison list.']"));
+		return element.isDisplayed();
+	}
+
 	public void switchToChildWindowByID(String parent) {
 		// Get tat ca cac cua so + tab dang co
 		Set<String> allWindows = driver.getWindowHandles();
