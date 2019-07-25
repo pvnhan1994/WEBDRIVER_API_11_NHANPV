@@ -23,8 +23,7 @@ public class Topic_13_Javascript_Executor {
 
 	String usernameID, passwordID, name, gender, dob, Address, City, State, PIN, MobileNumber, Email, Password;
 
-	String editAddr, editCity, editState, editPIN, editMobileNumber, editMail;
-
+	
 	By customerNameTextbox = By.xpath("//input[@name='name']");
 	By genderMaleRadio = By.xpath("//input[@value='m']");
 	By DoBTextbox = By.xpath("//input[@name='dob']");
@@ -50,14 +49,14 @@ public class Topic_13_Javascript_Executor {
 
 	@BeforeClass
 	public void beforeClass() {
-		//driver = new FirefoxDriver();
-		System.setProperty("webdriver.chrome.driver", ".\\lib\\chromedriver.exe");
-		driver = new ChromeDriver ();
+		driver = new FirefoxDriver();
+		//System.setProperty("webdriver.chrome.driver", "/Applications/chromedriver");
+		//driver = new ChromeDriver ();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		
-		usernameID = "mngr206330";
-		passwordID = "YgEpYsA";
+		usernameID = "mngr47659";
+		passwordID = "123456@";
 		name = "Automation Test";
 		gender = "male";
 		dob = "2000-01-02";
@@ -69,17 +68,12 @@ public class Topic_13_Javascript_Executor {
 		Email = "phanvietnhan" + randomMail() + "@gmail.com";
 		Password = "1231123";
 
-		editAddr = "235 Cu Lao";
-		editCity = "Ho Chi Minh";
-		editState = "Lac Hong";
-		editPIN = "656565";
-		editMobileNumber = "0967345123";
-		editMail = "phanvietnhan" + randomMail() + "@gmail.com";
 	}
 	
 
-	@Test
+	
 	public void TC_01() {
+
 		navigateToUrlByJS("http://live.guru99.com/");
 		
 		String homePageUrl = (String) executeForBrowser("return document.URL");
@@ -101,6 +95,7 @@ public class Topic_13_Javascript_Executor {
 		//verifyTextInInnerText("Sony Xperia was added to your shopping cart.");
 		
 		clickToElementByJS(driver.findElement(By.xpath("//a[text()='Privacy Policy']")));
+		
 		String privacyTitle = (String) executeForBrowser("return document.title");
 		Assert.assertEquals(privacyTitle,"Privacy Policy");
 		
@@ -117,6 +112,7 @@ public class Topic_13_Javascript_Executor {
 		
 		
 	}
+	
 	public void TC_02() throws Exception {
 		driver.get("http://demo.guru99.com/v4");
 		// Input ID, pass
@@ -143,6 +139,7 @@ public class Topic_13_Javascript_Executor {
 		driver.findElement(emailTextbox).sendKeys(Email);
 		driver.findElement(passwordTextbox).sendKeys(Password);
 		driver.findElement(submitButton).click();
+		Thread.sleep(10000);
 		// Get customer ID 
 		customerID = driver.findElement(By.xpath("//td[text()='Customer ID']//following-sibling::td")).getText();
 		System.out.println("Customer ID at TC_01: " + customerID);
@@ -157,6 +154,63 @@ public class Topic_13_Javascript_Executor {
 		Assert.assertEquals(driver.findElement(MobileNumberRow).getText(), MobileNumber);
 		Assert.assertEquals(driver.findElement(EmailRow).getText(), Email);
 
+	}
+	@Test
+	public void TC_03() {
+		navigateToUrlByJS("http://live.guru99.com/");
+		
+		//div[@class='footer']//li/a[text()='My Account']
+		
+		WebElement MyAccount = driver.findElement(By.xpath("//div[@class='footer']//li/a[text()='My Account']"));
+		clickToElementByJS(MyAccount);
+		
+		//span[text()='Create an Account']
+		WebElement createAccount = driver.findElement(By.xpath("//span[text()='Create an Account']"));
+		clickToElementByJS(createAccount);
+		
+		WebElement firstname = driver.findElement(By.xpath("//input[@id='firstname']"));
+		sendkeyToElementByJS(firstname,"phan");
+		
+		WebElement middlename = driver.findElement(By.xpath("//input[@id='middlename']"));
+		sendkeyToElementByJS(middlename,"viet");
+		
+		WebElement lastname = driver.findElement(By.xpath("//input[@id='lastname']"));
+		sendkeyToElementByJS(lastname,"nhan");
+		
+		WebElement email_address = driver.findElement(By.xpath("//input[@id='email_address']"));
+		sendkeyToElementByJS(email_address,Email);
+		
+		WebElement password = driver.findElement(By.xpath("//input[@id='password']"));
+		sendkeyToElementByJS(password,"123123");
+		
+		WebElement repassword = driver.findElement(By.xpath("//input[@id='confirmation']"));
+		sendkeyToElementByJS(repassword,"123123");
+		
+		WebElement clickConfirm = driver.findElement(By.xpath("//input[@id='is_subscribed']"));
+		clickToElementByJS(clickConfirm);
+		
+		WebElement btnRegister = driver.findElement(By.xpath("//button[@title='Register']"));
+		clickToElementByJS(btnRegister);
+		
+		String registerSuccess = (String) executeForBrowser("return document.documentElement.innerText;");
+		Assert.assertTrue(registerSuccess.contains("Thank you for registering with Main Website Store."));
+		Assert.assertTrue(verifyTextInInnerText("Thank you for registering with Main Website Store."));
+		//WebElement getText = driver.findElement(By.xpath("//span[text()='Thank you for registering with Main Website Store.']"));
+		//verifyTextInInnerText("Thank you for registering with Main Website Store.");
+		
+
+		WebElement clickAccount = driver.findElement(By.xpath("//div[@class='account-cart-wrapper']//span[text()='Account']"));
+		clickToElementByJS(clickAccount);
+		
+		
+		WebElement logOut = driver.findElement(By.xpath("//a[@title='Log Out']"));
+		clickToElementByJS(logOut);
+		
+		//navigateToUrlByJS("http://live.guru99.com/index.php/");
+		
+		String homePageUrl = (String) executeForBrowser("return document.URL");
+		System.out.println("Url = " + homePageUrl);
+		Assert.assertEquals(homePageUrl, "http://live.guru99.com/index.php/customer/account/logoutSuccess/");
 	}
 	public void highlightElement(WebElement element) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
