@@ -178,7 +178,7 @@ public class Topic_08_DropdownList {
 
 		// duyet qua het tat ca cac phan tu
 		for (WebElement childElement : allItems) {
-			// System.out.println("Text lan thu = "+childElement.getText());
+			
 			for (String item : expectedValueItem) {
 				if (childElement.getText().equals(item)) {
 					javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", childElement);
