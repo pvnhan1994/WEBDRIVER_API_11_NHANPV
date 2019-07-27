@@ -157,14 +157,14 @@ public class Topic_14_UploadFiles {
 		List<WebElement> allItems = driver.findElements(By.xpath(listFolder));
 		System.out.println("Tat ca phan tu trong dropdown =" + allItems.size());
 		
-		for (WebElement childElement : allItems) {
-			System.out.println("Text moi lan get = " + childElement.getText());
+		for (WebElement folder : allItems) {
+			System.out.println("Text moi lan get = " + folder.getText());
 
-			if (childElement.getText().contains(NameFolder)) {
+			if (folder.getText().contains(NameFolder)) {
 				
-				if (childElement.isDisplayed()) {
-					System.out.println("Click by Selenium = " + childElement.getText());
-					childElement.click();
+				if (folder.isDisplayed()) {
+					System.out.println("Click by Selenium = " + folder.getText());
+					folder.click();
 				}
 				Thread.sleep(1000);
 				break;
