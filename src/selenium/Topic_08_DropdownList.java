@@ -31,7 +31,7 @@ public class Topic_08_DropdownList {
 
 	}
 
-	
+	@Test
 	public void TC_01_DropdownList() throws Exception {
 		driver.get("https://daominhdam.github.io/basic-form/index.html");
 
@@ -57,7 +57,7 @@ public class Topic_08_DropdownList {
 
 	}
 
-	
+	@Test
 	public void TC_02_jQuery() throws Exception {
 		driver.get("https://jqueryui.com/resources/demos/selectmenu/default.html");
 
@@ -75,7 +75,7 @@ public class Topic_08_DropdownList {
 
 	}
 
-	
+	@Test
 	public void TC_03_Angualar() throws Exception {
 		driver.get("https://material.angular.io/components/select/examples");
 
@@ -88,7 +88,8 @@ public class Topic_08_DropdownList {
 		Assert.assertTrue(isElementDisplayed("//mat-label[text()='State']/ancestor::span/preceding-sibling::mat-select//div[@class='mat-select-value']//span[text()='Michigan']"));
 
 	}
-	
+
+	@Test
 	public void TC_04_KendoUI() throws Exception {
 		driver.get("https://demos.telerik.com/kendo-ui/dropdownlist/index");
 
@@ -96,12 +97,9 @@ public class Topic_08_DropdownList {
 		Thread.sleep(1000);
 		Assert.assertTrue(isElementDisplayed("//span[@aria-owns='color_listbox']//span[@class='k-input'and text()='Grey']"));
 
-		// selectItemInCustomDropdown("//span[@aria-owns='color_listbox']//span[@class='k-select']",
-		// "//ul[@id='color_listbox']//li", "Orange");
-		// Thread.sleep(1000);
-		// Assert.assertTrue(isElementDisplayed("//span[@aria-owns='color_listbox']//span[@class='k-input'and
-		// text()='Orange']"));
 	}
+
+	@Test
 	public void TC_05_CustomMultipleItems() throws Exception {
 		driver.get("http://multiple-select.wenzhixin.net.cn/examples/#basic.html");
 
@@ -123,28 +121,45 @@ public class Topic_08_DropdownList {
 		selectMultiItemInDropdown("//button[@class='ms-choice']", "//div[@class='ms-drop bottom']//span", four);
 		Assert.assertTrue(checkItemSelected(four));
 	}
+
 	@Test
-	public void TC_06_Editalbe_jQuery()throws Exception {
+	public void TC_06_VueJS() throws Exception {
+		driver.get("https://mikerodham.github.io/vue-dropdowns/");
+		selectItemInCustomDropdown("//div[@id='app']/div/li/span", "//ul[@class='dropdown-menu']//a", "Second Option");
+		Assert.assertTrue(isElementDisplayed("//div[@id='app']/div/li[contains(text(),'Second Option')]"));
+
+	}
+
+	@Test
+	public void TC_07_ReactJS() throws Exception {
+		driver.get("https://react.semantic-ui.com/modules/dropdown/");
+		selectItemInCustomDropdown("//h3[@id='selection']/ancestor::div[@class='equal width row']/following-sibling::div[@class='row']//div[@role='listbox']", "//div[@class='visible menu transition']/div/span", "Mat");
+		Assert.assertTrue(isElementDisplayed("//div[@role='listbox']//div[text()='Matt']"));
+	}
+
+	@Test
+	public void TC_08_Editalbe_jQuery() throws Exception {
 		String itemNeedGet = "Audi";
 		driver.get("http://indrimuska.github.io/jquery-editable-select/");
 		driver.findElement(By.xpath("//div[@id='default-place']/input")).click();
 		driver.findElement(By.xpath("//div[@id='default-place']/input")).sendKeys("Au");
-		
-		//selectItemInCustomDropdown("//div[@id='default-place']/input","//div[@id='default-place']//li","Audi");
-		List <WebElement> listItem = driver.findElements(By.xpath("//div[@id='default-place']//li[contains(@class,'visible')]"));
-		System.out.println("All item displayed: "+ listItem.size());
-		for (WebElement item: listItem) {
+
+		// selectItemInCustomDropdown("//div[@id='default-place']/input","//div[@id='default-place']//li","Audi");
+		List<WebElement> listItem = driver.findElements(By.xpath("//div[@id='default-place']//li[contains(@class,'visible')]"));
+		System.out.println("All item displayed: " + listItem.size());
+		for (WebElement item : listItem) {
 			System.out.println("All items in Dropdown: " + item.getText());
-			if (item.getText().equals(itemNeedGet)){
+			if (item.getText().equals(itemNeedGet)) {
 				item.click();
 			}
-			
+
 			break;
-			
+
 		}
 		Assert.assertTrue(verifyTextInInnerText("Audi"));
-		
+
 	}
+
 	public boolean isElementDisplayed(String locator) {
 		WebElement element = driver.findElement(By.xpath(locator));
 		return element.isDisplayed();
@@ -185,9 +200,6 @@ public class Topic_08_DropdownList {
 
 	}
 
-	
-	
-
 	public void selectMultiItemInDropdown(String parentXpath, String allItemXpath, String[] expectedValueItem) throws Exception {
 		// click vao dropdown tat ca value
 		WebElement parentDropdown = driver.findElement(By.xpath(parentXpath));
@@ -200,7 +212,7 @@ public class Topic_08_DropdownList {
 
 		// duyet qua het tat ca cac phan tu
 		for (WebElement childElement : allItems) {
-			
+
 			for (String item : expectedValueItem) {
 				if (childElement.getText().equals(item)) {
 					javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", childElement);
@@ -240,16 +252,19 @@ public class Topic_08_DropdownList {
 			return driver.findElement(By.xpath("//button[@class='ms-choice']/span[text()='" + numberItemSelected + " of 12 selected']")).isDisplayed();
 		}
 	}
+
 	public boolean verifyTextInInnerText(String textExpected) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		String textActual = (String) js.executeScript("return document.documentElement.innerText.match('" + textExpected + "')[0]");
 		System.out.println("Text actual = " + textActual);
 		return textActual.equals(textExpected);
 	}
+
 	public Object executeForBrowser(String javaSript) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return js.executeScript(javaSript);
 	}
+
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
