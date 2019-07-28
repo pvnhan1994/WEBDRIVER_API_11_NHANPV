@@ -102,7 +102,7 @@ public class Topic_08_DropdownList {
 		Assert.assertTrue(isElementDisplayed("//span[@aria-owns='color_listbox']//span[@class='k-input'and text()='Orange']"));
 
 	}
-	
+
 	@Test
 	public void TC_05_CustomMultipleItems() throws Exception {
 		driver.get("http://multiple-select.wenzhixin.net.cn/examples/#basic.html");
@@ -140,6 +140,7 @@ public class Topic_08_DropdownList {
 		selectItemInCustomDropdown("//h3[@id='selection']/ancestor::div[@class='equal width row']/following-sibling::div[@class='row']//div[@role='listbox']", "//div[@class='visible menu transition']/div/span", "Matt");
 		Assert.assertTrue(isElementDisplayed("//div[@role='listbox']//div[text()='Matt']"));
 	}
+
 	@Test
 	public void TC_08_Editalbe_jQuery() throws Exception {
 		String itemNeedGet = "Audi";
@@ -178,17 +179,16 @@ public class Topic_08_DropdownList {
 
 		List<WebElement> allItems = driver.findElements(By.xpath(listItem));
 		System.out.println("Tat ca phan tu trong dropdown =" + allItems.size());
-		
+
 		for (WebElement items : allItems) {
 			System.out.println("Text moi lan get = " + items.getText());
 
 			if (items.getText().equals(expectedItem)) {
-				
+
 				if (items.isDisplayed()) {
 					System.out.println("Click by Selenium = " + items.getText());
 					items.click();
 
-					
 				} else {
 					javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", items);
 					Thread.sleep(1000);
@@ -203,8 +203,6 @@ public class Topic_08_DropdownList {
 		}
 
 	}
-
-
 
 	public void selectMultiItemInDropdown(String parentXpath, String allItemXpath, String[] expectedValueItem) throws Exception {
 		// click vao dropdown tat ca value
