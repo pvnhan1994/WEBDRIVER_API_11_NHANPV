@@ -97,8 +97,12 @@ public class Topic_08_DropdownList {
 		Thread.sleep(1000);
 		Assert.assertTrue(isElementDisplayed("//span[@aria-owns='color_listbox']//span[@class='k-input'and text()='Grey']"));
 
-	}
+		selectItemInCustomDropdown("//span[@aria-owns='color_listbox']//span[@class='k-select']", "//ul[@id='color_listbox']//li", "Orange");
+		Thread.sleep(1000);
+		Assert.assertTrue(isElementDisplayed("//span[@aria-owns='color_listbox']//span[@class='k-input'and text()='Orange']"));
 
+	}
+	
 	@Test
 	public void TC_05_CustomMultipleItems() throws Exception {
 		driver.get("http://multiple-select.wenzhixin.net.cn/examples/#basic.html");
@@ -133,10 +137,9 @@ public class Topic_08_DropdownList {
 	@Test
 	public void TC_07_ReactJS() throws Exception {
 		driver.get("https://react.semantic-ui.com/modules/dropdown/");
-		selectItemInCustomDropdown("//h3[@id='selection']/ancestor::div[@class='equal width row']/following-sibling::div[@class='row']//div[@role='listbox']", "//div[@class='visible menu transition']/div/span", "Mat");
+		selectItemInCustomDropdown("//h3[@id='selection']/ancestor::div[@class='equal width row']/following-sibling::div[@class='row']//div[@role='listbox']", "//div[@class='visible menu transition']/div/span", "Matt");
 		Assert.assertTrue(isElementDisplayed("//div[@role='listbox']//div[text()='Matt']"));
 	}
-
 	@Test
 	public void TC_08_Editalbe_jQuery() throws Exception {
 		String itemNeedGet = "Audi";
@@ -165,31 +168,32 @@ public class Topic_08_DropdownList {
 		return element.isDisplayed();
 	}
 
-	public void selectItemInCustomDropdown(String parentXpath, String allItemXpath, String expectedValueItem) throws Exception {
-		// Click vào dropdown cho xổ hết tất cả các giá trị
+	public void selectItemInCustomDropdown(String clickDropdown, String listItem, String expectedItem) throws Exception {
 
-		WebElement parentDropdown = driver.findElement(By.xpath(parentXpath));
+		WebElement parentDropdown = driver.findElement(By.xpath(clickDropdown));
 		javascriptExecutor.executeScript("arguments[0].click();", parentDropdown);
 		Thread.sleep(1000);
-		// Chờ cho tất cả các giá trị trong dropdown được load ra thành công
-		waitExplicit.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(allItemXpath)));
 
-		List<WebElement> allItems = driver.findElements(By.xpath(allItemXpath));
+		waitExplicit.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(listItem)));
+
+		List<WebElement> allItems = driver.findElements(By.xpath(listItem));
 		System.out.println("Tat ca phan tu trong dropdown =" + allItems.size());
-		// Duyệt qua hết tất cả các phần tử cho đến khi thỏa mãn điều kiện
-		for (WebElement childElement : allItems) {
-			System.out.println("Text moi lan get = " + childElement.getText());
+		
+		for (WebElement items : allItems) {
+			System.out.println("Text moi lan get = " + items.getText());
 
-			if (childElement.getText().contains(expectedValueItem)) {
-				// click vao item can chon
-				if (childElement.isDisplayed()) {
-					System.out.println("Click by Selenium = " + childElement.getText());
-					childElement.click();
+			if (items.getText().equals(expectedItem)) {
+				
+				if (items.isDisplayed()) {
+					System.out.println("Click by Selenium = " + items.getText());
+					items.click();
+
+					
 				} else {
-					javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", childElement);
+					javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", items);
 					Thread.sleep(1000);
-					System.out.println("Click by JS = " + childElement.getText());
-					javascriptExecutor.executeScript("arguments[0].click();", childElement);
+					System.out.println("Click by JS = " + items.getText());
+					javascriptExecutor.executeScript("arguments[0].click();", items);
 				}
 				Thread.sleep(1000);
 				break;
@@ -199,6 +203,8 @@ public class Topic_08_DropdownList {
 		}
 
 	}
+
+
 
 	public void selectMultiItemInDropdown(String parentXpath, String allItemXpath, String[] expectedValueItem) throws Exception {
 		// click vao dropdown tat ca value
