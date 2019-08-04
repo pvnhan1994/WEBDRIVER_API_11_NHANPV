@@ -48,7 +48,7 @@ public class Topic_11_12_Popup_IFrame_Frame {
 		// Note: isDisplayed Nó chỉ kiểm tra được element có hiển thị thôi
 		// Element k hiển thị nó chỉ ktra được 1 case: Size > 0 (phải có ít nhất 1)
 		// Element k hiển thị size = 0 ; nó k dùng hàm này được
-
+//
 		// Switch TO iFrame
 		WebElement lookingForIframe = driver.findElement(By.xpath("//iframe[starts-with(@id,'viz_iframe')]"));
 		driver.switchTo().frame(lookingForIframe);
