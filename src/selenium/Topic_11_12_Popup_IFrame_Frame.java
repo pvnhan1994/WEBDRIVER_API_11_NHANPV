@@ -23,8 +23,8 @@ public class Topic_11_12_Popup_IFrame_Frame {
 		driver.manage().window().maximize();
 
 	}
-
-	public void TC_01_iFrame() throws Exception {
+	
+	public void TC_01_iFrame_Online10() throws Exception {
 		driver.get("https://www.hdfcbank.com/");
 
 		// Size >= 1 - Presence (Có trong DOM) - k hiển thị trên UI: Undispplayed
@@ -71,7 +71,27 @@ public class Topic_11_12_Popup_IFrame_Frame {
 		}
 
 	}
-
+	@Test
+	public void TC_01_1_SwitchFrame_Online11() throws Exception {
+		driver.get("https://netbanking.hdfcbank.com/netbanking");
+		
+		WebElement findIframe = driver.findElement(By.name("login_page"));
+		driver.switchTo().frame(findIframe);
+		Thread.sleep(3000);
+		
+		driver.findElement(By.xpath("//input[@class='input_password']")).sendKeys("selenium_online");
+		driver.findElement(By.xpath("//table[@class='lForm']//img[@alt='continue']")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//td[@align='left']/p")).getText(), "IPIN (Password)");
+		
+		driver.switchTo().defaultContent();
+		
+		WebElement findPrivacy = driver.findElement(By.name("footer"));
+		driver.switchTo().frame(findPrivacy);
+		Thread.sleep(3000);
+		Assert.assertEquals(driver.findElement(By.xpath("//form[@class='width']//a[text()='Privacy Policy']")).getText(), "Privacy Policy");
+				
+	
+	}
 	public void TC_02_Windows() {
 		driver.get("https://daominhdam.github.io/basic-form/index.html");
 
@@ -124,7 +144,7 @@ public class Topic_11_12_Popup_IFrame_Frame {
 
 	}
 
-	@Test
+
 	public void TC_04_Compare() {
 		driver.get("http://live.guru99.com/index.php/");
 
