@@ -42,7 +42,7 @@ public class Topic_15_16_WedDriverWait {
 		driver.get("http://the-internet.herokuapp.com/dynamic_loading/2");
 		driver.findElement(starButton).click();
 
-		Assert.assertEquals(driver.findElement(helloworldText).getText(), "Hello World!");
+		Assert.assertEquals(driver.findElement(helloworldText).getText(), "dsdssdHello World!");
 	}
 	
 	public void TC_02_Explicit_5s_Visible() {
