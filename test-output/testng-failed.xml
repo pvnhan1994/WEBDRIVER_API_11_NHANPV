@@ -3,13 +3,13 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="selenium.Topic_13_Javascript_Executor">
+      <class name="selenium.Topic_15_16_WedDriverWait">
         <methods>
-          <include name="TC_01"/>
-          <include name="afterClass"/>
-          <include name="beforeClass"/>
+          <include name="TC_01_Implicit_5s"/>
+          <include name="afterMethod"/>
+          <include name="beforeMethod"/>
         </methods>
-      </class> <!-- selenium.Topic_13_Javascript_Executor -->
+      </class> <!-- selenium.Topic_15_16_WedDriverWait -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
