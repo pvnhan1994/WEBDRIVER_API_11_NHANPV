@@ -148,8 +148,10 @@ public class Topic_15_16_WedDriverWait {
 		WebElement countdown = driver.findElement(By.id("javascript_countdown_time"));
 		// wait.until(ExpectedConditions.visibilityOf(countdown));
 
-		new FluentWait<WebElement>(countdown).withTimeout(15, TimeUnit.SECONDS).pollingEvery(1, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class).until(new Function<WebElement, Boolean>() {
+		new FluentWait<WebElement>(countdown).withTimeout(15, TimeUnit.SECONDS)
+		.pollingEvery(1, TimeUnit.SECONDS)
+		.ignoring(NoSuchElementException.class)
+		.until(new Function<WebElement, Boolean>() {
 					public Boolean apply(WebElement element) {
 						boolean flag = element.getText().endsWith("00");
 						System.out.println("Time = " + element.getText());
