@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="WebDriver API" parallel="testes" thread-count="3">
+  <test name="Run on FIREFOX">
+  	<parameters name="browser" value="firefox" />
+    <classes>
+       <class name="testNG.Topic_04_DataProvider"/>
+    </classes>
+  </test>
+  <test name="Run on CHROME">
+    	<parameters name="browser" value="chrome" />
+    <classes>
+      <class name="testNG.Topic_04_DataProvider"/>
+    </classes>
+  </test>
+  <test name="RUN on HEADLESS">
+    	<parameters name="browser" value="headless" />
+    <classes>
+      <class name="testNG.Topic_04_DataProvider"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->
